@@ -1,6 +1,7 @@
 ﻿'use strict';
 
 const cheerio = require('cheerio');
+const request = require('request');
 const AdProvider = require('./ad-provider');
 const util = require('util');
 
@@ -25,36 +26,39 @@ class MercadoLibreProvider extends AdProvider {
 
     parseResults(body, cb) {
         const $ = cheerio.load(body);
-        var $resultContainer = $('.results-item.article');
-        if (!$resultContainer.length) {
+        const fetchItemUrlTemplate = 'https://api.mercadolibre.com/items/%s'
+        var $items = $('.rowItem');
+        if (!$items.length) {
             return [];
         }
 
         var results = [];
-        $resultContainer.each(function (index, el) {
-            var $el = $(el);
-            var ad = parse($el);
-            results.push(ad);
+        $items.each(function (index, el) {
+            var id = $(el).attr('id');
+            var fetchItemUrl = util.format(fetchItemUrlTemplate, id);
+            request(fetchItemUrl, {}, (error, response, body) => {
+                var obj = JSON.parse(body);
+                var ad = {
+                    description: obj.description,
+                    title: obj.title,
+                    permalink: obj.permalink,
+                    thumbnail: obj.thumbnail,
+                    pictures: findPictures(obj.pictures),
+                    publishedOn: obj.date_created,
+                    updatedOn: obj.last_updated,
+                    price: obj.price
+                };
+                results.push(ad);
+                cb(null, results);
+            });
         });
 
-        cb(null, results);
-
-        function parse($el) {
-            var $item = $el.find('.rowItem');
-            var title = $item.find('.list-view-item-title').find('h2').text();
-            var url = $item.find('.list-view-item-title').find('a').attr('href');
-            var images = $item.find('.carusel').find('img').attr('src');
-            return {
-                description: $el.find('.Descripcion').text().trim(),
-                title: title,
-                url: url,
-                thumbnail: images[0],
-                images: images,
-                /*fuel: $info.find('.combustible').text(),
-                make: $info.find('.anio').text(),
-                mileage: $info.find('.km').text(),
-                price: $info.find('.cifra').text().trim()*/
-            };
+        function findPictures(pictures) {
+            var images = [];
+            pictures.map(pict => {
+                images.push(pict.url);
+            });
+            return images;
         }
     }
 }

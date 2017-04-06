@@ -43,7 +43,7 @@ class LaVozProvider extends AdProvider {
             return {
                 description: $el.find('.Descripcion').text().trim(),
                 title: $modelo.text().trim(),
-                url: $modelo.find('a').attr('href'),
+                permalink: $modelo.find('a').attr('href'),
                 thumbnail: $el.find('.foto').find('img').attr('src'),
                 fuel: $info.find('.combustible').text(),
                 make: $info.find('.anio').text(),

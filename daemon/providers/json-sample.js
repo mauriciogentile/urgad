@@ -28,7 +28,7 @@ class Caca extends AdProvider {
         return fetchTemplateUrl + (page || 0);
     }
 
-    parseResults(body) {
+    parseResults(body, cb) {
         console.log(body);
         var body = body.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
         var json = JSON.parse(body);
@@ -42,7 +42,7 @@ class Caca extends AdProvider {
             results.push(ad);
         });
 
-        return results;
+        cb(null, results);
     }
 }
 
