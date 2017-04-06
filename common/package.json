@@ -4,7 +4,7 @@
   "description": "common",
   "main": "index.js",
   "author": {
-    "name": "genti"
+    "name": "Mauri Gentile"
   },
   "dependencies": {
     "winston": "^2.3.1"

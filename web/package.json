@@ -1,13 +1,13 @@
 {
-  "name": "oorg",
+  "name": "web",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
-  "description": "oorg",
+  "description": "urgad",
   "author": {
-    "name": "genti"
+    "name": "Mauri Gentile"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
