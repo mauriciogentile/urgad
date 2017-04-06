@@ -1,0 +1,6 @@
+.vs/oorg/v15/.suo
+.vs/config/applicationhost.config
+common/node_modules/
+*.suo
+oorg/node_modules/
+oorg-daemon/node_modules/

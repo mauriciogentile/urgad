@@ -1,0 +1,15 @@
+{
+  "name": "oorg-daemon",
+  "version": "0.0.0",
+  "description": "oorg-daemon",
+  "main": "app.js",
+  "author": {
+    "name": "genti"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "common": "file:///D:\\development\\oorg\\common",
+    "request": "^2.81.0",
+    "winston": "^2.3.1"
+  }
+}

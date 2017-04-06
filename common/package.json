@@ -1,0 +1,12 @@
+{
+  "name": "common",
+  "version": "0.0.1",
+  "description": "common",
+  "main": "index.js",
+  "author": {
+    "name": "genti"
+  },
+  "dependencies": {
+    "winston": "^2.3.1"
+  }
+}
