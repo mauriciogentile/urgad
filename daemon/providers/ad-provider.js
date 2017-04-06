@@ -1,6 +1,7 @@
 'use strict';
 
 const request = require('request');
+const logger = require('common').logger;
 
 class AdProvider {
     constructor() {
@@ -10,6 +11,8 @@ class AdProvider {
         return new Promise((resolve, reject) => {
             var results = [];
             var page = this.initialPage || 0;
+            var pageStep = this.pagingStep || 1;
+            const maxResults = this.maxResults || 100;
             var self = this;
 
             var fetch = function () {
@@ -19,23 +22,24 @@ class AdProvider {
                         reject('Error fetching ads from ' + self.name);
                         return;
                     }
-                    console.log(response.statusCode);
-                    console.log(fetchUrl);
+                    logger.log('info', response.statusCode);
+                    logger.log('info', fetchUrl);
                     if (error) {
                         reject('Error fetching ads from ' + self.name);
                         return;
                     }
 
-                    var results1 = self.parseResults(body);
-                    results = results.concat(results1);
-                    if (!results1.length || page < 0) {
-                        resolve(results);
-                        return;
-                    }
-                    else {
-                        page++;
-                        fetch();
-                    }
+                    self.parseResults(body, (error, results1) => {
+                        results = results.concat(results1);
+                        if (!results1.length || page < 0 || results.length >= maxResults) {
+                            resolve(results);
+                            return;
+                        }
+                        else {
+                            page = page + pageStep;
+                            fetch();
+                        }
+                    });
                 });
             };
 

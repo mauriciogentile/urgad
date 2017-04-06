@@ -11,21 +11,6 @@ class LaVozProvider extends AdProvider {
         this.initialPage = 0;
     }
 
-    static _parse($el) {
-        var $info = $el.find('.Info');
-        var $modelo = $el.find('.Modelo');
-        return {
-            description: $el.find('.Descripcion').text().trim(),
-            title: $modelo.text().trim(),
-            landingUrl: $modelo.find('a').attr('href'),
-            thumbnail: $el.find('.foto').find('img').attr('src'),
-            fuel: $info.find('.combustible').text(),
-            make: $info.find('.anio').text(),
-            mileage: $info.find('.km').text(),
-            price: $info.find('.cifra').text().trim()
-        };
-    }
-
     getRequestOptions() {
         return {};
     }
@@ -35,8 +20,10 @@ class LaVozProvider extends AdProvider {
         return fetchTemplateUrl + (page || 0);
     }
 
-    parseResults(body) {
+    parseResults(body, cb) {
+
         const $ = cheerio.load(body);
+
         if (!$('.BoxResultado').length) {
             return [];
         }
@@ -44,11 +31,26 @@ class LaVozProvider extends AdProvider {
         var results = [];
         $('.BoxResultado').each(function (index, el) {
             var $el = $(el);
-            var ad = LaVozProvider._parse($el);
+            var ad = parse($el);
             results.push(ad);
         });
 
-        return results;
+        cb(null, results);
+
+        function parse($el) {
+            var $info = $el.find('.Info');
+            var $modelo = $el.find('.Modelo');
+            return {
+                description: $el.find('.Descripcion').text().trim(),
+                title: $modelo.text().trim(),
+                url: $modelo.find('a').attr('href'),
+                thumbnail: $el.find('.foto').find('img').attr('src'),
+                fuel: $info.find('.combustible').text(),
+                make: $info.find('.anio').text(),
+                mileage: $info.find('.km').text(),
+                price: $info.find('.cifra').text().trim()
+            };
+        }
     }
 }
 

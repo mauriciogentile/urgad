@@ -29,7 +29,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
-    <Compile Include="providers\json-parser.js" />
+    <Compile Include="providers\cars-mercado-libre.js" />
+    <Compile Include="providers\json-sample.js" />
     <Compile Include="providers\cars-lavoz.js">
       <SubType>Code</SubType>
     </Compile>

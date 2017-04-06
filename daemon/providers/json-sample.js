@@ -10,6 +10,7 @@ class Caca extends AdProvider {
         super();
         this.name = 'Caca';
         this.initialPage = -1;
+        this.maxResults = 5;
     }
 
     static _parse(obj) {

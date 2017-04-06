@@ -18,6 +18,5 @@ var runAll = function (provs) {
     }).catch(error => { logger.log('error', error) });
 };
 
-
 setImmediate(runAll, providers);
-setInterval(runAll, 100 * 1000, providers);
+//setInterval(runAll, 100 * 1000, providers);

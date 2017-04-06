@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "oorg", "oorg\oorg.njsproj", "{F79EED81-B549-433C-8353-15A0EFB1E0F8}"
-EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "oorg-daemon", "oorg-daemon\oorg-daemon.njsproj", "{69914053-99A6-4E10-A952-76D747A81CF0}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "common", "common\common.njsproj", "{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "web", "web\web.njsproj", "{F79EED81-B549-433C-8353-15A0EFB1E0F8}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "daemon", "daemon\daemon.njsproj", "{69914053-99A6-4E10-A952-76D747A81CF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F79EED81-B549-433C-8353-15A0EFB1E0F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F79EED81-B549-433C-8353-15A0EFB1E0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F79EED81-B549-433C-8353-15A0EFB1E0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,10 +27,6 @@ Global
 		{69914053-99A6-4E10-A952-76D747A81CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69914053-99A6-4E10-A952-76D747A81CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69914053-99A6-4E10-A952-76D747A81CF0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F31B22B-C9C3-4414-B5BF-518FEAC1BD96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

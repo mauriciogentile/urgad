@@ -3,3 +3,4 @@
 common/node_modules/
 web/node_modules/
 daemon/node_modules/
+daemon/logs.txt
