@@ -5,6 +5,9 @@ const logger = require('common').logger;
 
 var runAll = function (provs) {
     var fetchPromises = provs.map(function (provider) {
+        provider.on('done', () => {
+            console.log('Done!!!!');
+        });
         return provider.fetch();
     });
 

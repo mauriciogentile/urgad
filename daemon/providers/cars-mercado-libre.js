@@ -39,17 +39,22 @@ class MercadoLibreProvider extends AdProvider {
             request(fetchItemUrl, {}, (error, response, body) => {
                 var obj = JSON.parse(body);
                 var ad = {
-                    description: obj.description,
+                    description: "",
+                    condition: obj.condition,
                     title: obj.title,
                     permalink: obj.permalink,
                     thumbnail: obj.thumbnail,
                     pictures: findPictures(obj.pictures),
                     publishedOn: obj.date_created,
                     updatedOn: obj.last_updated,
-                    price: obj.price
+                    price: obj.price,
+                    mileage: findMileage(obj.attributes)
                 };
                 results.push(ad);
-                cb(null, results);
+
+                //all ads processed
+                if (results.length == $items.length)
+                    cb(null, results);
             });
         });
 
@@ -59,6 +64,17 @@ class MercadoLibreProvider extends AdProvider {
                 images.push(pict.url);
             });
             return images;
+        }
+
+        function findMileage(attribs) {
+            var mileage = null;
+            attribs.map(el => {
+                if (el.id == "MLA1744-KMTS") {
+                    mileage = el.value_name;
+                    return;
+                }
+            });
+            return mileage;
         }
     }
 }

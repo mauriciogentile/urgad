@@ -2,6 +2,7 @@
 
 const cheerio = require('cheerio');
 const AdProvider = require('./ad-provider');
+const request = require('request');
 
 class LaVozProvider extends AdProvider {
 
@@ -23,19 +24,28 @@ class LaVozProvider extends AdProvider {
     parseResults(body, cb) {
 
         const $ = cheerio.load(body);
-
-        if (!$('.BoxResultado').length) {
+        var $ads = $('.BoxResultado');
+        if (!$ads.length) {
             return [];
         }
 
         var results = [];
-        $('.BoxResultado').each(function (index, el) {
+        $ads.each(function (index, el) {
             var $el = $(el);
             var ad = parse($el);
-            results.push(ad);
-        });
+            request(ad.permalink, {}, (error, response, body) => {
+                const $ = cheerio.load(body);
+                var pictures = [];
+                $('img.imagecache').map((i, el) => { pictures.push($(el).attr('src')); });
+                ad.pictures = pictures;
+                ad.tumbnail = pictures[0];
+                results.push(ad);
 
-        cb(null, results);
+                //all ads processed
+                if (results.length == $ads.length)
+                    cb(null, results);
+            });
+        });
 
         function parse($el) {
             var $info = $el.find('.Info');
@@ -44,11 +54,11 @@ class LaVozProvider extends AdProvider {
                 description: $el.find('.Descripcion').text().trim(),
                 title: $modelo.text().trim(),
                 permalink: $modelo.find('a').attr('href'),
-                thumbnail: $el.find('.foto').find('img').attr('src'),
                 fuel: $info.find('.combustible').text(),
                 make: $info.find('.anio').text(),
                 mileage: $info.find('.km').text(),
-                price: $info.find('.cifra').text().trim()
+                price: $info.find('.cifra').text().trim(),
+                publishedOn: new Date($info.find('div.pie-aviso-teaser').text())
             };
         }
     }
