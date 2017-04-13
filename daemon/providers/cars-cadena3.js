@@ -13,6 +13,8 @@ class Cadena3Provider extends AdProvider {
         super();
         this.name = 'cadena3-cars';
         this.initialPage = 0;
+        this.maxResults = this.pagingStep * 4;
+        this.maxResults = 1;
     }
 
     getRequestOptions() {
@@ -43,8 +45,10 @@ class Cadena3Provider extends AdProvider {
                 //find images
                 $("#mygallery").find("img").map((i, el) => { pictures.push($(el).attr('src')); });
                 ad.pictures = pictures;
-                ad.tumbnail = pictures[0];
-                ad.title = $("#content").find("h1")[0].innerText;
+                ad.thumbnail = pictures[0];
+                ad.title = $("#content").find("h1").first().text();
+                ad.price = $(".orange").text().toNumber();
+                ad.currency = "ARG";
                 results.push(ad);
 
                 //all ads processed

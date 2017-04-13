@@ -38,7 +38,7 @@ class LaVozProvider extends AdProvider {
                 var pictures = [];
                 $('img.imagecache').map((i, el) => { pictures.push($(el).attr('src')); });
                 ad.pictures = pictures;
-                ad.tumbnail = pictures[0];
+                ad.thumbnail = pictures[0];
                 results.push(ad);
 
                 //all ads processed
