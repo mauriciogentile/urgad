@@ -9,7 +9,7 @@ class MercadoLibreProvider extends AdProvider {
 
     constructor() {
         super();
-        this.name = 'MercadoLibre - Cars';
+        this.name = 'ml-cars';
         this.initialPage = 0;
         this.pagingStep = 49;
         this.maxResults = this.pagingStep * 4;
@@ -24,7 +24,7 @@ class MercadoLibreProvider extends AdProvider {
         return util.format(fetchTemplateUrl, (page || 0));
     }
 
-    parseResults(body, cb) {
+    parseResponse(body, cb) {
         const $ = cheerio.load(body);
         const fetchItemUrlTemplate = 'https://api.mercadolibre.com/items/%s'
         var $items = $('.rowItem');
@@ -48,7 +48,12 @@ class MercadoLibreProvider extends AdProvider {
                     publishedOn: obj.date_created,
                     updatedOn: obj.last_updated,
                     price: obj.price,
-                    mileage: findMileage(obj.attributes)
+                    currency: "ARG",
+                    mileage: findAttribute(obj.attributes, "MLA1744- KMTS"),
+                    fuel: findAttribute(obj.attributes, "MLA1744-COMBUS"),
+                    year: findAttribute(obj.attributes, "MLA1744-YEAR"),
+                    make: findAttribute(obj.attributes, "MLA1744-MARC"),
+                    model: findAttribute(obj.attributes, "MLA1744-MODL")
                 };
                 results.push(ad);
 
@@ -66,10 +71,10 @@ class MercadoLibreProvider extends AdProvider {
             return images;
         }
 
-        function findMileage(attribs) {
+        function findAttribute(attribs, attrid) {
             var mileage = null;
             attribs.map(el => {
-                if (el.id == "MLA1744-KMTS") {
+                if (el.id == attrid) {
                     mileage = el.value_name;
                     return;
                 }

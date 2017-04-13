@@ -29,6 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="index.js" />
+    <Compile Include="extensions.js" />
     <Compile Include="logger.js">
       <SubType>Code</SubType>
     </Compile>

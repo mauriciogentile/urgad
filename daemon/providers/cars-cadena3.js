@@ -4,12 +4,14 @@ const cheerio = require('cheerio');
 const AdProvider = require('./ad-provider');
 const request = require('request');
 const common = require('common');
+const hostUrl = "http://clasificados.cadena3.com/";
+const searchTemplateUrl = "avisos.asp?&categoria=Veh%EDculos&rubro=6&provincia=Cordoba&porprecio=&texto=urgente&direction=";
 
-class LaVozProvider extends AdProvider {
+class Cadena3Provider extends AdProvider {
 
     constructor() {
         super();
-        this.name = 'lavoz-cars';
+        this.name = 'cadena3-cars';
         this.initialPage = 0;
     }
 
@@ -18,27 +20,31 @@ class LaVozProvider extends AdProvider {
     }
 
     getFetchUrl(page) {
-        const fetchTemplateUrl = 'http://www.clasificadoslavoz.com.ar/search/apachesolr_search/urgente%20vendo?f[0]=im_taxonomy_vid_34%3A6323&page=';
-        return fetchTemplateUrl + (page || 0);
+        return hostUrl + searchTemplateUrl + (page || 1);
     }
 
     parseResponse(body, cb) {
         const $ = cheerio.load(body);
-        var $ads = $('.BoxResultado');
+        var $ads = $('.bloque-resultado');
         if (!$ads.length) {
             return [];
         }
 
         var results = [];
-        $ads.each(function (index, el) {
-            var $el = $(el);
-            var ad = parse($el);
-            request(ad.permalink, {}, (error, response, body) => {
+        $ads.each((index, el) => {
+            var ad = {
+                permanentLink: hostUrl + $(el).find("a").attr("href") 
+            };
+            console.log(ad.permanentLink);
+            request(ad.permanentLink, {}, (error, response, body) => {
                 const $ = cheerio.load(body);
+                //console.log(body);
                 var pictures = [];
-                $('img.imagecache').map((i, el) => { pictures.push($(el).attr('src')); });
+                //find images
+                $("#mygallery").find("img").map((i, el) => { pictures.push($(el).attr('src')); });
                 ad.pictures = pictures;
                 ad.tumbnail = pictures[0];
+                ad.title = $("#content").find("h1")[0].innerText;
                 results.push(ad);
 
                 //all ads processed
@@ -54,7 +60,7 @@ class LaVozProvider extends AdProvider {
             return {
                 description: $el.find('.Descripcion').text().trim(),
                 title: $modelo.text().trim(),
-                permalink: $modelo.find('a').attr('href'),
+                permalink: $el.find('a').attr('href'),
                 fuel: $info.find('.combustible').text(),
                 model: $info.find('.anio').text(),
                 mileage: $info.find('.km').text(),
@@ -67,4 +73,4 @@ class LaVozProvider extends AdProvider {
     }
 }
 
-module.exports = LaVozProvider;
+module.exports = Cadena3Provider;

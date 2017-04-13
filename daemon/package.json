@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "cheerio": "^0.22.0",
-    "common": "file:///D:\\development\\oorg\\common",
+    "common": "..\\common",
     "request": "^2.81.0",
     "winston": "^2.3.1"
   }
